@@ -1,0 +1,409 @@
+package rules;
+
+import com.tn.schemes.eligibility_finder.model.CitizenProfile;
+
+rule "1. Kalaignar Magalir Urimai Thogai"
+    when
+        $c : CitizenProfile(gender != null && gender.equalsIgnoreCase("FEMALE"), age >= 21, annualIncome < 250000)
+    then
+        $c.addEligibleScheme("KMUT_01");
+end
+
+rule "2. Pudhumai Penn Scheme"
+    when
+        $c : CitizenProfile(gender != null && gender.equalsIgnoreCase("FEMALE"), age >= 17 && age <= 25,
+                            educationLevel != null && educationLevel.equalsIgnoreCase("HIGHER_EDUCATION"))
+    then
+        $c.addEligibleScheme("PP_01");
+end
+
+rule "3. Tamizh Pudhalvan Scheme"
+    when
+        $c : CitizenProfile(gender != null && gender.equalsIgnoreCase("MALE"), age >= 17 && age <= 25,
+                            educationLevel != null && educationLevel.equalsIgnoreCase("HIGHER_EDUCATION"))
+    then
+        $c.addEligibleScheme("TP_01");
+end
+
+rule "4. Chief Minister Comprehensive Health Insurance Scheme"
+    when
+        $c : CitizenProfile(annualIncome <= 120000)
+    then
+        $c.addEligibleScheme("CMCHIS_01");
+end
+
+rule "5. Indira Gandhi National Old Age Pension"
+    when
+        $c : CitizenProfile(age >= 60, annualIncome <= 100000)
+    then
+        $c.addEligibleScheme("OAP_01");
+end
+
+rule "6. Destitute Widow Pension Scheme"
+    when
+        $c : CitizenProfile(gender != null && gender.equalsIgnoreCase("FEMALE"),
+                            maritalStatus != null && maritalStatus.equalsIgnoreCase("WIDOW"),
+                            age >= 18, annualIncome <= 100000)
+    then
+        $c.addEligibleScheme("WIDOW_01");
+end
+
+rule "7. Unmarried Poor Women Pension Scheme"
+    when
+        $c : CitizenProfile(gender != null && gender.equalsIgnoreCase("FEMALE"),
+                            maritalStatus != null && maritalStatus.equalsIgnoreCase("UNMARRIED"),
+                            age >= 50, annualIncome <= 100000)
+    then
+        $c.addEligibleScheme("UNMARRIED_01");
+end
+
+rule "8. PM-KISAN Samman Nidhi"
+    when
+        $c : CitizenProfile(occupation != null && occupation.equalsIgnoreCase("FARMER"), annualIncome <= 200000)
+    then
+        $c.addEligibleScheme("PMKISAN_01");
+end
+
+rule "9. TN Micro Irrigation Subsidy"
+    when
+        $c : CitizenProfile(occupation != null && occupation.equalsIgnoreCase("FARMER"), annualIncome <= 500000)
+    then
+        $c.addEligibleScheme("TN_IRR_01");
+end
+
+rule "10. Kalaignar Kanavu Illam Housing Scheme"
+    when
+        $c : CitizenProfile(age >= 21, annualIncome <= 150000)
+    then
+        $c.addEligibleScheme("KKI_01");
+end
+
+rule "11. Pradhan Mantri Awas Yojana"
+    when
+        $c : CitizenProfile(age >= 21, annualIncome <= 300000)
+    then
+        $c.addEligibleScheme("PMAY_01");
+end
+
+rule "12. Ayushman Bharat PM-JAY"
+    when
+        $c : CitizenProfile(annualIncome <= 150000)
+    then
+        $c.addEligibleScheme("PMJAY_01");
+end
+
+rule "13. TN BC MBC DNC Post-Matric Scholarship"
+    when
+        $c : CitizenProfile(community != null && (community.equalsIgnoreCase("BC") || community.equalsIgnoreCase("MBC") || community.equalsIgnoreCase("DNC")),
+                            educationLevel != null && educationLevel.equalsIgnoreCase("HIGHER_EDUCATION"),
+                            annualIncome <= 250000)
+    then
+        $c.addEligibleScheme("BC_SCHOL_01");
+end
+
+rule "14. Post-Matric Scholarship for SC ST Students"
+    when
+        $c : CitizenProfile(community != null && (community.equalsIgnoreCase("SC") || community.equalsIgnoreCase("ST")),
+                            educationLevel != null && educationLevel.equalsIgnoreCase("HIGHER_EDUCATION"),
+                            annualIncome <= 250000)
+    then
+        $c.addEligibleScheme("SC_SCHOL_01");
+end
+
+rule "15. Pradhan Mantri Mudra Yojana"
+    when
+        $c : CitizenProfile(age >= 18 && age <= 65,
+                            occupation != null && (occupation.equalsIgnoreCase("SELF_EMPLOYED") || occupation.equalsIgnoreCase("UNEMPLOYED")))
+    then
+        $c.addEligibleScheme("PMMY_01");
+end
+
+rule "16. Vidiyal Payanam Free Bus Travel for Women"
+    when
+        $c : CitizenProfile(gender != null && gender.equalsIgnoreCase("FEMALE"), age >= 5)
+    then
+        $c.addEligibleScheme("FBW_01");
+end
+
+rule "17. Naan Mudhalvan Skill Development Scheme"
+    when
+        $c : CitizenProfile(age >= 17 && age <= 25,
+                            educationLevel != null && educationLevel.equalsIgnoreCase("HIGHER_EDUCATION"))
+    then
+        $c.addEligibleScheme("NM_01");
+end
+
+rule "18. Moovalur Ramamirtham Marriage Assistance Scheme"
+    when
+        $c : CitizenProfile(gender != null && gender.equalsIgnoreCase("FEMALE"),
+                            age >= 18 && age <= 35,
+                            educationLevel != null && educationLevel.equalsIgnoreCase("GRADUATE"),
+                            annualIncome <= 120000)
+    then
+        $c.addEligibleScheme("MTH_01");
+end
+
+rule "19. TN Unemployed Youth Employment Generation Programme"
+    when
+        $c : CitizenProfile(occupation != null && occupation.equalsIgnoreCase("UNEMPLOYED"),
+                            age >= 18 && age <= 45,
+                            annualIncome <= 500000)
+    then
+        $c.addEligibleScheme("TN_UYEGP_01");
+end
+
+rule "20. TN Free Agricultural Electricity Scheme"
+    when
+        $c : CitizenProfile(occupation != null && occupation.equalsIgnoreCase("FARMER"))
+    then
+        $c.addEligibleScheme("TN_AGRI_01");
+end
+
+rule "21. Pradhan Mantri Vishwakarma Scheme"
+    when
+        $c : CitizenProfile(occupation != null && occupation.equalsIgnoreCase("SELF_EMPLOYED"), age >= 18)
+    then
+        $c.addEligibleScheme("PMV_01");
+end
+
+rule "22. Pradhan Mantri Ujjwala Yojana"
+    when
+        $c : CitizenProfile(gender != null && gender.equalsIgnoreCase("FEMALE"), age >= 18, annualIncome <= 150000)
+    then
+        $c.addEligibleScheme("PM_UJJWALA_01");
+end
+
+rule "23. Atal Pension Yojana"
+    when
+        $c : CitizenProfile(age >= 18 && age <= 40,
+                            occupation != null && (occupation.equalsIgnoreCase("SELF_EMPLOYED") || occupation.equalsIgnoreCase("FARMER") || occupation.equalsIgnoreCase("UNEMPLOYED")))
+    then
+        $c.addEligibleScheme("APY_01");
+end
+
+rule "24. Pradhan Mantri Suraksha Bima Yojana"
+    when
+        $c : CitizenProfile(age >= 18 && age <= 70)
+    then
+        $c.addEligibleScheme("PMSBY_01");
+end
+
+rule "25. Pradhan Mantri Jeevan Jyoti Bima Yojana"
+    when
+        $c : CitizenProfile(age >= 18 && age <= 50)
+    then
+        $c.addEligibleScheme("PMJJBY_01");
+end
+
+rule "26. Sukanya Samriddhi Yojana"
+    when
+        $c : CitizenProfile(gender != null && gender.equalsIgnoreCase("FEMALE"), age >= 1 && age <= 10)
+    then
+        $c.addEligibleScheme("SSY_01");
+end
+
+rule "27. TN Chief Minister Girl Child Protection Scheme"
+    when
+        $c : CitizenProfile(gender != null && gender.equalsIgnoreCase("FEMALE"), age >= 1 && age <= 3, annualIncome <= 72000)
+    then
+        $c.addEligibleScheme("CMGCP_01");
+end
+
+rule "28. ICDS Anganwadi Child Nutrition Scheme"
+    when
+        $c : CitizenProfile(age >= 1 && age <= 6)
+    then
+        $c.addEligibleScheme("ICDS_01");
+end
+
+rule "29. TN Chief Minister Breakfast Scheme"
+    when
+        $c : CitizenProfile(age >= 5 && age <= 10,
+                            educationLevel != null && educationLevel.equalsIgnoreCase("SCHOOL"))
+    then
+        $c.addEligibleScheme("TN_BF_01");
+end
+
+rule "30. Puratchi Thalaivar MGR Noon Meal Programme"
+    when
+        $c : CitizenProfile(age >= 5 && age <= 15,
+                            educationLevel != null && educationLevel.equalsIgnoreCase("SCHOOL"))
+    then
+        $c.addEligibleScheme("TN_NOON_01");
+end
+
+rule "31. TN Free School Uniforms Textbooks and Bus Pass"
+    when
+        $c : CitizenProfile(age >= 5 && age <= 17,
+                            educationLevel != null && educationLevel.equalsIgnoreCase("SCHOOL"))
+    then
+        $c.addEligibleScheme("TN_EDU_KIT_01");
+end
+
+rule "32. Pre-Matric Scholarship for SC ST Students"
+    when
+        $c : CitizenProfile(community != null && (community.equalsIgnoreCase("SC") || community.equalsIgnoreCase("ST")),
+                            age >= 6 && age <= 16,
+                            educationLevel != null && educationLevel.equalsIgnoreCase("SCHOOL"),
+                            annualIncome <= 250000)
+    then
+        $c.addEligibleScheme("PRE_SC_01");
+end
+
+rule "33. National Means-cum-Merit Scholarship"
+    when
+        $c : CitizenProfile(age >= 13 && age <= 16,
+                            educationLevel != null && educationLevel.equalsIgnoreCase("SCHOOL"),
+                            annualIncome <= 350000)
+    then
+        $c.addEligibleScheme("NMMS_01");
+end
+
+rule "34. TN Free Bicycle Scheme for Class 11 Students"
+    when
+        $c : CitizenProfile(age >= 15 && age <= 17,
+                            educationLevel != null && educationLevel.equalsIgnoreCase("SCHOOL"))
+    then
+        $c.addEligibleScheme("TN_CYCLE_01");
+end
+
+rule "35. TN Free Laptop Scheme for Students"
+    when
+        $c : CitizenProfile(age >= 16 && age <= 21)
+    then
+        $c.addEligibleScheme("TN_LAPTOP_01");
+end
+
+rule "36. Dr Muthulakshmi Reddy Maternity Benefit Scheme"
+    when
+        $c : CitizenProfile(gender != null && gender.equalsIgnoreCase("FEMALE"),
+                            maritalStatus != null && maritalStatus.equalsIgnoreCase("MARRIED"),
+                            age >= 19 && age <= 45,
+                            annualIncome <= 250000)
+    then
+        $c.addEligibleScheme("DR_MRMBS_01");
+end
+
+rule "37. Pradhan Mantri Matru Vandana Yojana"
+    when
+        $c : CitizenProfile(gender != null && gender.equalsIgnoreCase("FEMALE"),
+                            maritalStatus != null && maritalStatus.equalsIgnoreCase("MARRIED"),
+                            age >= 19 && age <= 45,
+                            annualIncome <= 800000)
+    then
+        $c.addEligibleScheme("PMMVY_01");
+end
+
+rule "38. TN Amma Two-Wheeler Scheme for Working Women"
+    when
+        $c : CitizenProfile(gender != null && gender.equalsIgnoreCase("FEMALE"),
+                            age >= 18 && age <= 40,
+                            occupation != null && (occupation.equalsIgnoreCase("SALARIED") || occupation.equalsIgnoreCase("SELF_EMPLOYED")),
+                            annualIncome <= 250000)
+    then
+        $c.addEligibleScheme("AMMA_2W_01");
+end
+
+rule "39. Sathiyavani Muthu Ammaiyar Free Sewing Machine Scheme"
+    when
+        $c : CitizenProfile(gender != null && gender.equalsIgnoreCase("FEMALE"),
+                            age >= 20 && age <= 40,
+                            annualIncome <= 72000)
+    then
+        $c.addEligibleScheme("TN_SEW_01");
+end
+
+rule "40. TN Uzhavar Pathukappu Thittam Farmer Social Security"
+    when
+        $c : CitizenProfile(occupation != null && occupation.equalsIgnoreCase("FARMER"),
+                            age >= 18 && age <= 65)
+    then
+        $c.addEligibleScheme("TN_UPT_01");
+end
+
+rule "41. Pradhan Mantri Fasal Bima Yojana"
+    when
+        $c : CitizenProfile(occupation != null && occupation.equalsIgnoreCase("FARMER"),
+                            age >= 18)
+    then
+        $c.addEligibleScheme("PMFBY_01");
+end
+
+rule "42. TN Construction and Unorganized Workers Welfare Scheme"
+    when
+        $c : CitizenProfile(occupation != null && occupation.equalsIgnoreCase("SALARIED"),
+                            age >= 18 && age <= 60,
+                            annualIncome <= 200000)
+    then
+        $c.addEligibleScheme("TN_CWWB_01");
+end
+
+rule "43. e-Shram Unorganized Worker Social Security Card"
+    when
+        $c : CitizenProfile(age >= 16 && age <= 59,
+                            occupation != null && (occupation.equalsIgnoreCase("SALARIED") || occupation.equalsIgnoreCase("FARMER") || occupation.equalsIgnoreCase("SELF_EMPLOYED")))
+    then
+        $c.addEligibleScheme("ESHRAM_01");
+end
+
+rule "44. TN First Generation Graduate Tuition Fee Concession"
+    when
+        $c : CitizenProfile(age >= 17 && age <= 25,
+                            educationLevel != null && educationLevel.equalsIgnoreCase("HIGHER_EDUCATION"),
+                            annualIncome <= 250000)
+    then
+        $c.addEligibleScheme("TN_FGG_01");
+end
+
+rule "45. Central Sector Scheme of Scholarship for College Students"
+    when
+        $c : CitizenProfile(age >= 17 && age <= 25,
+                            educationLevel != null && educationLevel.equalsIgnoreCase("HIGHER_EDUCATION"),
+                            annualIncome <= 450000)
+    then
+        $c.addEligibleScheme("CSSS_01");
+end
+
+rule "46. TN Free UPSC and TNPSC Civil Services Coaching"
+    when
+        $c : CitizenProfile(age >= 21 && age <= 32,
+                            educationLevel != null && educationLevel.equalsIgnoreCase("GRADUATE"),
+                            annualIncome <= 600000)
+    then
+        $c.addEligibleScheme("TN_PSC_01");
+end
+
+rule "47. Stand-Up India Entrepreneurship Loan Scheme"
+    when
+        $c : CitizenProfile(age >= 18,
+                            occupation != null && (occupation.equalsIgnoreCase("SELF_EMPLOYED") || occupation.equalsIgnoreCase("UNEMPLOYED")),
+                            (gender != null && gender.equalsIgnoreCase("FEMALE")) ||
+                            (community != null && (community.equalsIgnoreCase("SC") || community.equalsIgnoreCase("ST"))))
+    then
+        $c.addEligibleScheme("STANDUP_01");
+end
+
+rule "48. TAHDCO Entrepreneur Loan and Subsidy for SC ST"
+    when
+        $c : CitizenProfile(age >= 18 && age <= 55,
+                            community != null && (community.equalsIgnoreCase("SC") || community.equalsIgnoreCase("ST")),
+                            annualIncome <= 300000)
+    then
+        $c.addEligibleScheme("TAHDCO_01");
+end
+
+rule "49. TABCEDCO Micro-Business Loan for BC MBC DNC"
+    when
+        $c : CitizenProfile(age >= 18 && age <= 55,
+                            community != null && (community.equalsIgnoreCase("BC") || community.equalsIgnoreCase("MBC") || community.equalsIgnoreCase("DNC")),
+                            annualIncome <= 300000)
+    then
+        $c.addEligibleScheme("TABCEDCO_01");
+end
+
+rule "50. TN Senior Citizen Free Bus Pass and Welfare Scheme"
+    when
+        $c : CitizenProfile(age >= 60)
+    then
+        $c.addEligibleScheme("TN_SENIOR_01");
+end
